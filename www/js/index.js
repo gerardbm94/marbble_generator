@@ -32,6 +32,7 @@ var app = {
         var screenWidth = window.innerWidth;
         var screenHeight = window.innerHeight;
         var pos = 0;
+		var velocity = 1.5;
 		
 		//init save
 		var save_mode = '';
@@ -91,8 +92,8 @@ var app = {
 					document.getElementById('quisap').currentTime = 0;
 				}
 				else {
-					sphere.position.z ++;
-                	camera.position.z ++;
+					sphere.position.z += velocity;
+                	camera.position.z = sphere.position.z-200;
 				}
          		
 				//path recording
@@ -112,9 +113,10 @@ var app = {
 				
 				//objects recording
 				if(save_mode == 'o') {
-					if (window.level_info.path.length > sphere.position.z) {
+					var zPath = Math.round(sphere.position.z/velocity);
+					if (window.level_info.path.length > zPath) {
 						//ball position
-						sphere.position.x = window.level_info.path[sphere.position.z];
+						sphere.position.x = window.level_info.path[zPath];
 						
 						//ball color
 						var mat = new BABYLON.StandardMaterial("mat1", scene);
@@ -135,7 +137,7 @@ var app = {
 								var box = BABYLON.Mesh.CreateBox("Box_"+i, 10.0, scene);
 								box.position.x = window.level_info.path[i];
 								box.position.y = 5;
-								box.position.z = i;
+								box.position.z = i*velocity;
 							}
 						}
 					}
@@ -204,7 +206,7 @@ var app = {
 				//insert path
 				var path = [];
 				for (var i = 0; i < window.level_info.path.length; i++) {
-					path.push(new BABYLON.Vector3(window.level_info.path[i], 0, i));
+					path.push(new BABYLON.Vector3(window.level_info.path[i], 0, i*velocity));
 				}
 				var myShape = [new BABYLON.Vector3(-5, 0, 0), new BABYLON.Vector3(5, 0, 0)];
 				var extrusion = BABYLON.MeshBuilder.ExtrudeShape("caca", {shape: myShape, path: path, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true}, scene);
