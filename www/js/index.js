@@ -39,6 +39,8 @@ var app = {
 		var reset_counters = false;
 		var insert_obj = false;
 		window.level_info = {
+			'color_path': {r: ,g: ,b: },
+			'color_scene': {r: ,g: ,b: },
 			'path': [],
 			'objects': []
 		};
